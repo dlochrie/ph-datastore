@@ -1,0 +1,19 @@
+runtime: python27
+threadsafe: true
+api_version: 1
+
+handlers:
+# Backend endpoints.
+- url: /.*
+  script: server.main.APP
+
+# Skip any non-essential files for uploading during deploys.
+# NOTE: The "lib" directory is REQUIRED, otherwise GAE complains that it can't find required modules.
+# However, we should skip loading the "env" dir - see below.
+skip_files:
+# Defaults, see: https://cloud.google.com/appengine/docs/standard/python/config/appref#skip_files/
+- ^(.*/)?#.*#$
+- ^(.*/)?.*~$
+- ^(.*/)?.*\.py[co]$
+- ^(.*/)?.*/RCS/.*$
+- ^(.*/)?\..*$
