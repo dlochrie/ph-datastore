@@ -1,3 +1,21 @@
+from google.appengine.ext import ndb
+
+NAMESPACE = 'staging'
+
+
+def get_ancestor_key(namespace=NAMESPACE):
+    """Constructs a Datastore key for a top-level entity.
+    We use `namespace` as the key, it can be anything.
+
+    From Google Docs:
+    We set a parent key on each record to ensure that they are all
+    in the same entity group. Queries across the single entity group
+    will be consistent. However, the write rate should be limited to
+    ~1/second.
+    """
+    return ndb.Key('Namespace', namespace)
+
+
 def parse_id(data):
     """Parses the ID from the RESTFul URL string."""
     try:

@@ -1,7 +1,7 @@
 """Order Model"""
 from google.appengine.ext import ndb
 
-from server.common.util import parse_id, populate
+from server.common.util import get_ancestor_key, parse_id, populate
 import customer_model
 
 
@@ -36,8 +36,9 @@ def all(customer_id):
 def create(body, customer_id):
     """Creates a new record for the resource."""
     # First, get the parent customer.
-    parent_key = ndb.Key('Namespace', 'staging')
-    customer = customer_model.Customer.get_by_id(int(customer_id), parent=parent_key)
+    parent_key = get_ancestor_key()
+    customer = customer_model.Customer.get_by_id(
+        int(customer_id), parent=parent_key)
 
     # Create the order with the Customer as the parent.
     order = Order(parent=customer.key)

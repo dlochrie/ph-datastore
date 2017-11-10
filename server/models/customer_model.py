@@ -1,22 +1,8 @@
 """Customer Model"""
 from google.appengine.ext import ndb
 
-from server.common.util import parse_id, populate
+from server.common.util import get_ancestor_key, parse_id, populate
 from server.models.order_model import Order
-
-NAMESPACE = 'staging'
-
-# We set a parent key on each record to ensure that they are all
-# in the same entity group. Queries across the single entity group
-# will be consistent. However, the write rate should be limited to
-# ~1/second.
-
-
-def get_ancestor_key(namespace=NAMESPACE):
-    """Constructs a Datastore key for a top-level entity.
-    We use `namespace` as the key, it can be anything.
-    """
-    return ndb.Key('Namespace', namespace)
 
 
 class Customer(ndb.Model):
